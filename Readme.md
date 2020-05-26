@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дмитрий Безродный](https://up.htmlacademy.ru/javascript/20/user/66791).
-* Наставник: `Неизвестно`.
+* Наставник: [Екатерина Кащенко](https://up.htmlacademy.ru/javascript/20/user/109008).
 
 ---
 
