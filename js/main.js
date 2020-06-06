@@ -25,6 +25,10 @@ var AD_PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
+var MAP_WIDTH_MIN = 1;
+var MAP_WIDTH_MAX = 1200;
+var MAP_HEIGHT_MIN = 130;
+var MAP_HEIGHT_MAX = 630;
 
 var getRandomNumber = function (min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
@@ -56,15 +60,20 @@ var getArrayRandomLength = function (len, arr) {
 
 var getArrayAds = function (quantity) {
   var arr = [];
+  var locationX = 0;
+  var locationY = 0;
 
-  for (var i = 1; i <= quantity; i++) {
+  for (var i = 0; i < quantity; i++) {
+    locationX = getRandomNumber(MAP_WIDTH_MIN, MAP_WIDTH_MAX);
+    locationY = getRandomNumber(MAP_HEIGHT_MIN, MAP_HEIGHT_MAX);
+
     arr.push({
       author: {
-        avatar: 'img/avatars/user0' + i + '.png'
+        avatar: 'img/avatars/user0' + (i + 1) + '.png'
       },
       offer: {
-        title: 'Заголовок предложения ' + i,
-        address: (600 + i * getRandomNumber(2, 20)) + ', ' + (350 + i * getRandomNumber(2, 20)),
+        title: 'Заголовок предложения ' + (i + 1),
+        address: locationX + ', ' + locationY,
         price: getRandomNumber(1000, 9000),
         type: getArrayRandomElement(AD_TYPE),
         rooms: getRandomNumber(1, 5),
@@ -72,12 +81,12 @@ var getArrayAds = function (quantity) {
         checkin: getArrayRandomElement(AD_CHECK),
         checkout: getArrayRandomElement(AD_CHECK),
         features: getArrayRandomLength(getRandomNumber(1, AD_FEATURES.length), AD_FEATURES),
-        description: 'Строка с описанием ' + i,
+        description: 'Строка с описанием ' + (i + 1),
         photos: getArrayRandomLength(getRandomNumber(1, AD_PHOTOS.length), AD_PHOTOS)
       },
       location: {
-        x: getRandomNumber(1, 1200),
-        y: getRandomNumber(130, 630)
+        x: locationX,
+        y: locationY
       }
     });
   }
