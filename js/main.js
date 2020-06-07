@@ -29,6 +29,12 @@ var MAP_WIDTH_MIN = 1;
 var MAP_WIDTH_MAX = 1200;
 var MAP_HEIGHT_MIN = 130;
 var MAP_HEIGHT_MAX = 630;
+var MIN_PRICE = 1000;
+var MAX_PRICE = 9000;
+var MIN_ROOMS = 1;
+var MAX_ROOMS = 5;
+var MIN_GUESTS = 1;
+var MAX_GUESTS = 10;
 
 var getRandomNumber = function (min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
@@ -74,10 +80,10 @@ var getArrayAds = function (quantity) {
       offer: {
         title: 'Заголовок предложения ' + (i + 1),
         address: locationX + ', ' + locationY,
-        price: getRandomNumber(1000, 9000),
+        price: getRandomNumber(MIN_PRICE, MAX_PRICE),
         type: getArrayRandomElement(AD_TYPE),
-        rooms: getRandomNumber(1, 5),
-        guests: getRandomNumber(1, 10),
+        rooms: getRandomNumber(MIN_ROOMS, MAX_ROOMS),
+        guests: getRandomNumber(MIN_GUESTS, MAX_GUESTS),
         checkin: getArrayRandomElement(AD_CHECK),
         checkout: getArrayRandomElement(AD_CHECK),
         features: getArrayRandomLength(getRandomNumber(1, AD_FEATURES.length), AD_FEATURES),
