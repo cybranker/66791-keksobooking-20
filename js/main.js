@@ -135,19 +135,18 @@ var mapCardTemplate = document.querySelector('#card')
   .querySelector('.map__card');
 
 var getReadableOfferType = function (offerType) {
-  if (offerType === 'flat') {
-    return 'Квартира';
+  switch (offerType) {
+    case 'flat':
+      return 'Квартира';
+    case 'bungalo':
+      return 'Бунгало';
+    case 'house':
+      return 'Дом';
+    case 'palace':
+      return 'Дворец';
   }
 
-  if (offerType === 'bungalo') {
-    return 'Бунгало';
-  }
-
-  if (offerType === 'house') {
-    return 'Дом';
-  }
-
-  return 'Дворец';
+  return '';
 };
 
 var getFragmentOfferPhotos = function (arrOfferPhotos, photosElement) {
@@ -166,45 +165,37 @@ var getFragmentOfferPhotos = function (arrOfferPhotos, photosElement) {
 
 var renderOfferFeatures = function (arrOfferFeatures, cardElement) {
   var featuresElement = cardElement.querySelector('.popup__features');
-  var featureElements = featuresElement.querySelectorAll('.popup__feature');
   var featureElement;
-
-  for (var i = 0; i < featureElements.length; i++) {
-    featureElements[i].style = 'display: none;';
-  }
 
   for (var j = 0; j < arrOfferFeatures.length; j++) {
     featureElement = featuresElement.querySelector('[class*="popup__feature--' + arrOfferFeatures[j] + '"]');
-    featureElement.style = 'display: inline-block;';
+    featureElement.classList.add('popup__feature--show');
   }
 };
 
-var getFragmentMapCards = function (ads) {
+var getFragmentMapCard = function (ad) {
   var fragment = document.createDocumentFragment();
-  var mapCardElement;
-  var mapCardPhotosElement;
+  var mapCardElement = mapCardTemplate.cloneNode(true);
 
-  for (var i = 0; i < 1; i++) {
-    mapCardElement = mapCardTemplate.cloneNode(true);
+  mapCardElement.querySelector('.popup__title').textContent = ad.offer.title;
+  mapCardElement.querySelector('.popup__text--address').textContent = ad.offer.address;
+  mapCardElement.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
+  mapCardElement.querySelector('.popup__type').textContent = getReadableOfferType(ad.offer.type);
+  mapCardElement.querySelector('.popup__text--capacity').textContent = ad.offer.rooms +
+    ' комнаты для ' + ad.offer.guests + ' гостей';
+  mapCardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' +
+    ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
+  renderOfferFeatures(ad.offer.features, mapCardElement);
+  mapCardElement.querySelector('.popup__description').textContent = ad.offer.description;
 
-    mapCardElement.querySelector('.popup__title').textContent = ads[i].offer.title;
-    mapCardElement.querySelector('.popup__text--address').textContent = ads[i].offer.address;
-    mapCardElement.querySelector('.popup__text--price').textContent = ads[i].offer.price + '₽/ночь';
-    mapCardElement.querySelector('.popup__type').textContent = getReadableOfferType(ads[i].offer.type);
-    mapCardElement.querySelector('.popup__text--capacity').textContent = ads[i].offer.rooms +
-      ' комнаты для ' + ads[i].offer.guests + ' гостей';
-    mapCardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' +
-      ads[i].offer.checkin + ', выезд до ' + ads[i].offer.checkout;
-    renderOfferFeatures(ads[i].offer.features, mapCardElement);
-    mapCardElement.querySelector('.popup__description').textContent = ads[i].offer.description;
-    mapCardPhotosElement = mapCardElement.querySelector('.popup__photos');
-    mapCardPhotosElement.replaceChild(getFragmentOfferPhotos(ads[i].offer.photos, mapCardPhotosElement), mapCardPhotosElement.querySelector('.popup__photo'));
-    mapCardElement.querySelector('.popup__avatar').src = ads[i].author.avatar;
+  var mapCardPhotosElement = mapCardElement.querySelector('.popup__photos');
 
-    fragment.appendChild(mapCardElement);
-  }
+  mapCardPhotosElement.replaceChild(getFragmentOfferPhotos(ad.offer.photos, mapCardPhotosElement), mapCardPhotosElement.querySelector('.popup__photo'));
+  mapCardElement.querySelector('.popup__avatar').src = ad.author.avatar;
+
+  fragment.appendChild(mapCardElement);
 
   return fragment;
 };
 
-map.insertBefore(getFragmentMapCards(arrAds), map.querySelector('.map__filters-container'));
+map.insertBefore(getFragmentMapCard(arrAds[0]), map.querySelector('.map__filters-container'));
