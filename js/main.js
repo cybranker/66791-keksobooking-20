@@ -35,6 +35,7 @@ var MIN_ROOMS = 1;
 var MAX_ROOMS = 5;
 var MIN_GUESTS = 1;
 var MAX_GUESTS = 10;
+var MAP_PIN_POINTER_HEIGHT = 15;
 
 var getRandomNumber = function (min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
@@ -202,6 +203,7 @@ var getFragmentMapCard = function (ad) {
 var adFormElement = document.querySelector('.ad-form');
 var adFormFieldsetElements = adFormElement.querySelectorAll('fieldset');
 var mapFiltersFormElement = document.querySelector('.map__filters');
+var mapPinMainElement = document.querySelector('.map__pin--main');
 
 var toggleDisabledFormControls = function (formControls, toggle) {
   for (var i = 0; i < formControls.length; i++) {
@@ -209,10 +211,25 @@ var toggleDisabledFormControls = function (formControls, toggle) {
   }
 };
 
+var writeAddressField = function (mapPinElement) {
+  var addressField = document.querySelector('#address');
+  var mapPinElementWidth = mapPinElement.offsetWidth;
+  var mapPinElementHeight = mapPinElement.offsetHeight;
+  var mapPinElementLeftValue = parseInt(mapPinElement.style.left, 10);
+  var mapPinElementTopValue = parseInt(mapPinElement.style.top, 10);
+
+  if (map.classList.contains('map--faded')) {
+    addressField.value = (mapPinElementLeftValue + Math.round(mapPinElementWidth / 2)) + ', '
+      + (mapPinElementTopValue + Math.round(mapPinElementHeight / 2));
+  } else {
+    addressField.value = (mapPinElementLeftValue + Math.round(mapPinElementWidth / 2)) + ', '
+      + (mapPinElementTopValue + mapPinElementHeight + MAP_PIN_POINTER_HEIGHT);
+  }
+};
+
 toggleDisabledFormControls(adFormFieldsetElements, true);
 toggleDisabledFormControls(mapFiltersFormElement.children, true);
-
-var mapPinMainElement = document.querySelector('.map__pin--main');
+writeAddressField(mapPinMainElement);
 
 var activationPage = function () {
   map.classList.remove('map--faded');
@@ -224,11 +241,13 @@ var activationPage = function () {
 mapPinMainElement.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
     activationPage();
+    writeAddressField(mapPinMainElement);
   }
 });
 
 mapPinMainElement.addEventListener('keydown', function (evt) {
   if (evt.key === 'Enter') {
     activationPage();
+    writeAddressField(mapPinMainElement);
   }
 });
