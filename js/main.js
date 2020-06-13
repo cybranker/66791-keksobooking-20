@@ -128,7 +128,6 @@ var getFragmentMapPins = function (ads) {
 };
 
 var arrAds = getArrayAds(QUANTITY_ADS);
-// mapPinsListElement.appendChild(getFragmentMapPins(arrAds));
 
 var mapCardTemplate = document.querySelector('#card')
   .content
@@ -198,8 +197,6 @@ var getFragmentMapCard = function (ad) {
   return fragment;
 };
 
-// map.insertBefore(getFragmentMapCard(arrAds[0]), map.querySelector('.map__filters-container'));
-
 var adFormElement = document.querySelector('.ad-form');
 var adFormFieldsetElements = adFormElement.querySelectorAll('fieldset');
 var mapFiltersFormElement = document.querySelector('.map__filters');
@@ -242,6 +239,9 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
     activationPage();
     writeAddressField(mapPinMainElement);
+
+    mapPinsListElement.appendChild(getFragmentMapPins(arrAds));
+    map.insertBefore(getFragmentMapCard(arrAds[0]), map.querySelector('.map__filters-container'));
   }
 });
 
@@ -249,5 +249,34 @@ mapPinMainElement.addEventListener('keydown', function (evt) {
   if (evt.key === 'Enter') {
     activationPage();
     writeAddressField(mapPinMainElement);
+
+    mapPinsListElement.appendChild(getFragmentMapPins(arrAds));
+    map.insertBefore(getFragmentMapCard(arrAds[0]), map.querySelector('.map__filters-container'));
+  }
+});
+
+var roomNumberSelect = document.querySelector('#room_number');
+var capacitySelect = document.querySelector('#capacity');
+
+capacitySelect.addEventListener('change', function (evt) {
+  evt.preventDefault();
+
+  var capacitySelectValue = parseInt(capacitySelect.value, 10);
+  var roomNumberSelectValue = parseInt(roomNumberSelect.value, 10);
+  var minCapacitySelectValue = 0;
+  var maxRoomNumberSelectValue = 100;
+
+  if (capacitySelectValue > roomNumberSelectValue &&
+    capacitySelectValue > minCapacitySelectValue &&
+    roomNumberSelectValue < maxRoomNumberSelectValue) {
+    capacitySelect.setCustomValidity(roomNumberSelectValue + ' комнат, не для ' + capacitySelectValue + ' гостя');
+  } else if (capacitySelectValue > minCapacitySelectValue &&
+    roomNumberSelectValue === maxRoomNumberSelectValue) {
+    capacitySelect.setCustomValidity(roomNumberSelectValue + ' комнат, не для ' + capacitySelectValue + ' гостя');
+  } else if (capacitySelectValue === minCapacitySelectValue &&
+    roomNumberSelectValue < maxRoomNumberSelectValue) {
+    capacitySelect.setCustomValidity(roomNumberSelectValue + ' комнат, не для гостей');
+  } else {
+    capacitySelect.setCustomValidity('');
   }
 });
