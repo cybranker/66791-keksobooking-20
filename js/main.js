@@ -169,7 +169,7 @@ var renderOfferFeatures = function (arrOfferFeatures, cardElement) {
 
   for (var j = 0; j < arrOfferFeatures.length; j++) {
     featureElement = featuresElement.querySelector('[class*="popup__feature--' + arrOfferFeatures[j] + '"]');
-    featureElement.classList.add('popup__feature--show');
+    featureElement.classList.remove('hidden');
   }
 };
 
