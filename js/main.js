@@ -168,6 +168,10 @@ var renderOfferFeatures = function (arrOfferFeatures, cardElement) {
   var featuresElement = cardElement.querySelector('.popup__features');
   var featureElement;
 
+  for (var i = 0; i < featuresElement.children.length; i++) {
+    featuresElement.children[i].classList.add('hidden');
+  }
+
   for (var j = 0; j < arrOfferFeatures.length; j++) {
     featureElement = featuresElement.querySelector('[class*="popup__feature--' + arrOfferFeatures[j] + '"]');
     featureElement.classList.remove('hidden');
@@ -302,6 +306,7 @@ var setValidityCapacitySelect = function () {
 adFormElement.addEventListener('change', function (evt) {
   if (evt.target && evt.target.matches('#room_number')) {
     disabledCapacityInvalidOptions();
+    setValidityCapacitySelect();
   }
 
   if (evt.target && evt.target.matches('#capacity')) {
