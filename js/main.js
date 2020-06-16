@@ -384,7 +384,7 @@ adFormElement.addEventListener('change', function (evt) {
   }
 });
 
-adFormElement.addEventListener('focus', function(evt) {
+adFormElement.addEventListener('focus', function (evt) {
   if (evt.target && evt.target.matches('#timein')) {
     inabledTimeOptions('#timeout');
   }
