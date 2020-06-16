@@ -117,6 +117,7 @@ var getFragmentMapPins = function (ads) {
   for (var i = 0; i < ads.length; i++) {
     mapPinElement = mapPinTemplate.cloneNode(true);
 
+    mapPinElement.dataset.id = i;
     mapPinElement.style.left = ads[i].location.x + 'px';
     mapPinElement.style.top = ads[i].location.y + 'px';
     mapPinElement.style.transform = 'translate(-50%, -100%)';
@@ -247,7 +248,7 @@ mapPinMainElement.addEventListener('mousedown', function (evt) {
     writeAddressField(mapPinMainElement);
 
     mapPinsListElement.appendChild(getFragmentMapPins(arrAds));
-    map.insertBefore(getFragmentMapCard(arrAds[0]), map.querySelector('.map__filters-container'));
+    // map.insertBefore(getFragmentMapCard(arrAds[0]), map.querySelector('.map__filters-container'));
   }
 });
 
@@ -257,7 +258,7 @@ mapPinMainElement.addEventListener('keydown', function (evt) {
     writeAddressField(mapPinMainElement);
 
     mapPinsListElement.appendChild(getFragmentMapPins(arrAds));
-    map.insertBefore(getFragmentMapCard(arrAds[0]), map.querySelector('.map__filters-container'));
+    // map.insertBefore(getFragmentMapCard(arrAds[0]), map.querySelector('.map__filters-container'));
   }
 });
 
@@ -316,3 +317,50 @@ adFormElement.addEventListener('change', function (evt) {
 
 disabledCapacityInvalidOptions();
 setValidityCapacitySelect();
+
+var pinElementEscPressHandler = function (evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closeCardAds();
+  }
+};
+
+var openCardAds = function (mapPinElement) {
+  var mapPinElementId = mapPinElement.dataset.id;
+
+  if (document.querySelectorAll('.map__card').length === 0) {
+    map.insertBefore(getFragmentMapCard(arrAds[mapPinElementId]), map.querySelector('.map__filters-container'));
+    var mapCardAdClose = document.querySelector('.map__card').querySelector('.popup__close');
+
+    document.addEventListener('keydown', pinElementEscPressHandler);
+
+    mapCardAdClose.addEventListener('click', function () {
+      closeCardAds();
+    });
+  }
+};
+
+var closeCardAds = function () {
+  document.removeEventListener('keydown', pinElementEscPressHandler);
+  document.querySelector('.map__card').remove();
+};
+
+mapPinsListElement.addEventListener('click', function (evt) {
+  if (evt.target && evt.target.matches('.map__pin:not(.map__pin--main)')) {
+    openCardAds(evt.target);
+  }
+
+  if (evt.target && evt.target.parentElement.matches('.map__pin:not(.map__pin--main)')) {
+    openCardAds(evt.target.parentElement);
+  }
+});
+
+mapPinsListElement.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter' && evt.target && evt.target.matches('.map__pin:not(.map__pin--main)')) {
+    openCardAds(evt.target);
+  }
+
+  if (evt.key === 'Enter' && evt.target && evt.target.parentElement.matches('.map__pin:not(.map__pin--main)')) {
+    openCardAds(evt.target.parentElement);
+  }
+});
