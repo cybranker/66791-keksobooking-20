@@ -35,6 +35,9 @@ var MIN_ROOMS = 1;
 var MAX_ROOMS = 5;
 var MIN_GUESTS = 1;
 var MAX_GUESTS = 10;
+var MAP_PIN_POINTER_HEIGHT = 15;
+var MIN_CAPACITY_SELECT_VALUE = 0;
+var MAX_ROOM_NUMBER_SELECT_VALUE = 100;
 
 var getRandomNumber = function (min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
@@ -101,7 +104,6 @@ var getArrayAds = function (quantity) {
 };
 
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 var mapPinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
@@ -128,7 +130,6 @@ var getFragmentMapPins = function (ads) {
 };
 
 var arrAds = getArrayAds(QUANTITY_ADS);
-mapPinsListElement.appendChild(getFragmentMapPins(arrAds));
 
 var mapCardTemplate = document.querySelector('#card')
   .content
@@ -167,9 +168,13 @@ var renderOfferFeatures = function (arrOfferFeatures, cardElement) {
   var featuresElement = cardElement.querySelector('.popup__features');
   var featureElement;
 
+  for (var i = 0; i < featuresElement.children.length; i++) {
+    featuresElement.children[i].classList.add('hidden');
+  }
+
   for (var j = 0; j < arrOfferFeatures.length; j++) {
     featureElement = featuresElement.querySelector('[class*="popup__feature--' + arrOfferFeatures[j] + '"]');
-    featureElement.classList.add('popup__feature--show');
+    featureElement.classList.remove('hidden');
   }
 };
 
@@ -198,4 +203,116 @@ var getFragmentMapCard = function (ad) {
   return fragment;
 };
 
-map.insertBefore(getFragmentMapCard(arrAds[0]), map.querySelector('.map__filters-container'));
+var adFormElement = document.querySelector('.ad-form');
+var adFormFieldsetElements = adFormElement.querySelectorAll('fieldset');
+var mapFiltersFormElement = document.querySelector('.map__filters');
+var mapPinMainElement = document.querySelector('.map__pin--main');
+
+var toggleDisabledFormControls = function (formControls, toggle) {
+  for (var i = 0; i < formControls.length; i++) {
+    formControls[i].disabled = toggle;
+  }
+};
+
+var writeAddressField = function (mapPinElement) {
+  var addressField = document.querySelector('#address');
+  var mapPinElementWidth = mapPinElement.offsetWidth;
+  var mapPinElementHeight = mapPinElement.offsetHeight;
+  var mapPinElementLeftValue = parseInt(mapPinElement.style.left, 10);
+  var mapPinElementTopValue = parseInt(mapPinElement.style.top, 10);
+
+  if (map.classList.contains('map--faded')) {
+    addressField.value = (mapPinElementLeftValue + Math.round(mapPinElementWidth / 2)) + ', '
+      + (mapPinElementTopValue + Math.round(mapPinElementHeight / 2));
+  } else {
+    addressField.value = (mapPinElementLeftValue + Math.round(mapPinElementWidth / 2)) + ', '
+      + (mapPinElementTopValue + mapPinElementHeight + MAP_PIN_POINTER_HEIGHT);
+  }
+};
+
+toggleDisabledFormControls(adFormFieldsetElements, true);
+toggleDisabledFormControls(mapFiltersFormElement.children, true);
+writeAddressField(mapPinMainElement);
+
+var activationPage = function () {
+  map.classList.remove('map--faded');
+  adFormElement.classList.remove('ad-form--disabled');
+  toggleDisabledFormControls(adFormFieldsetElements, false);
+  toggleDisabledFormControls(mapFiltersFormElement.children, false);
+};
+
+mapPinMainElement.addEventListener('mousedown', function (evt) {
+  if (evt.button === 0) {
+    activationPage();
+    writeAddressField(mapPinMainElement);
+
+    mapPinsListElement.appendChild(getFragmentMapPins(arrAds));
+    map.insertBefore(getFragmentMapCard(arrAds[0]), map.querySelector('.map__filters-container'));
+  }
+});
+
+mapPinMainElement.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    activationPage();
+    writeAddressField(mapPinMainElement);
+
+    mapPinsListElement.appendChild(getFragmentMapPins(arrAds));
+    map.insertBefore(getFragmentMapCard(arrAds[0]), map.querySelector('.map__filters-container'));
+  }
+});
+
+var roomNumberSelect = document.querySelector('#room_number');
+var capacitySelect = document.querySelector('#capacity');
+
+var disabledCapacityInvalidOptions = function () {
+  var roomNumberSelectValue = parseInt(roomNumberSelect.value, 10);
+  var capacitySelectOptions = capacitySelect.querySelectorAll('option');
+  var capacitySelectOptionValue;
+
+  for (var i = 0; i < capacitySelectOptions.length; i++) {
+    capacitySelectOptionValue = parseInt(capacitySelectOptions[i].value, 10);
+
+    if (capacitySelectOptionValue > roomNumberSelectValue ||
+      (capacitySelectOptionValue === MIN_CAPACITY_SELECT_VALUE &&
+        roomNumberSelectValue !== MAX_ROOM_NUMBER_SELECT_VALUE) ||
+      (capacitySelectOptionValue > MIN_CAPACITY_SELECT_VALUE &&
+        roomNumberSelectValue === MAX_ROOM_NUMBER_SELECT_VALUE)) {
+      capacitySelectOptions[i].disabled = true;
+    } else {
+      capacitySelectOptions[i].disabled = false;
+    }
+  }
+};
+
+var setValidityCapacitySelect = function () {
+  var capacitySelectValue = parseInt(capacitySelect.value, 10);
+  var roomNumberSelectValue = parseInt(roomNumberSelect.value, 10);
+
+  if (capacitySelectValue > roomNumberSelectValue &&
+    capacitySelectValue > MIN_CAPACITY_SELECT_VALUE &&
+    roomNumberSelectValue < MAX_ROOM_NUMBER_SELECT_VALUE) {
+    capacitySelect.setCustomValidity('Такое количество гостей - ' + capacitySelectValue + ', не для такого количества комнат - ' + roomNumberSelectValue);
+  } else if (capacitySelectValue > MIN_CAPACITY_SELECT_VALUE &&
+    roomNumberSelectValue === MAX_ROOM_NUMBER_SELECT_VALUE) {
+    capacitySelect.setCustomValidity('Такое количество гостей - ' + capacitySelectValue + ', не для такого количества комнат - ' + roomNumberSelectValue);
+  } else if (capacitySelectValue === MIN_CAPACITY_SELECT_VALUE &&
+    roomNumberSelectValue < MAX_ROOM_NUMBER_SELECT_VALUE) {
+    capacitySelect.setCustomValidity('Не для гостей, количество комнат должно быть ' + MAX_ROOM_NUMBER_SELECT_VALUE);
+  } else {
+    capacitySelect.setCustomValidity('');
+  }
+};
+
+adFormElement.addEventListener('change', function (evt) {
+  if (evt.target && evt.target.matches('#room_number')) {
+    disabledCapacityInvalidOptions();
+    setValidityCapacitySelect();
+  }
+
+  if (evt.target && evt.target.matches('#capacity')) {
+    setValidityCapacitySelect();
+  }
+});
+
+disabledCapacityInvalidOptions();
+setValidityCapacitySelect();
