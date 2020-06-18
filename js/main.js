@@ -342,25 +342,16 @@ var setValidityPriceInput = function (typeValue) {
 var timeinSelect = document.querySelector('#timein');
 var timeoutSelect = document.querySelector('#timeout');
 
-var disabledTimeInvalidOptions = function (selector, timeValue) {
+var synchronizationTimeOptions = function (selector, timeValue) {
   var timeSelect = document.querySelector(selector);
   var timeSelectOptions = timeSelect.querySelectorAll('option');
 
   for (var i = 0; i < timeSelectOptions.length; i++) {
-    if (timeSelectOptions[i].value !== timeValue) {
-      timeSelectOptions[i].disabled = true;
+    if (timeSelectOptions[i].value === timeValue) {
+      timeSelectOptions[i].selected = true;
     } else {
-      timeSelectOptions[i].disabled = false;
+      timeSelectOptions[i].selected = false;
     }
-  }
-};
-
-var inabledTimeOptions = function (selector) {
-  var timeSelect = document.querySelector(selector);
-  var timeSelectOptions = timeSelect.querySelectorAll('option');
-
-  for (var i = 0; i < timeSelectOptions.length; i++) {
-    timeSelectOptions[i].disabled = false;
   }
 };
 
@@ -381,23 +372,13 @@ adFormElement.addEventListener('change', function (evt) {
   }
 
   if (evt.target && evt.target.matches('#timein')) {
-    disabledTimeInvalidOptions('#timeout', timeinSelect.value);
+    synchronizationTimeOptions('#timeout', timeinSelect.value);
   }
 
   if (evt.target && evt.target.matches('#timeout')) {
-    disabledTimeInvalidOptions('#timein', timeoutSelect.value);
+    synchronizationTimeOptions('#timein', timeoutSelect.value);
   }
 });
-
-adFormElement.addEventListener('focus', function (evt) {
-  if (evt.target && evt.target.matches('#timein')) {
-    inabledTimeOptions('#timeout');
-  }
-
-  if (evt.target && evt.target.matches('#timeout')) {
-    inabledTimeOptions('#timein');
-  }
-}, true);
 
 disabledCapacityInvalidOptions();
 setValidityCapacitySelect();
