@@ -1,31 +1,37 @@
 'use strict';
 
 (function () {
-  window.utils = {
-    getRandomNumber: function (min, max) {
-      var rand = min - 0.5 + Math.random() * (max - min + 1);
+  var getRandomNumber = function (min, max) {
+    var rand = min - 0.5 + Math.random() * (max - min + 1);
 
-      return Math.round(rand);
-    },
-    getArrayRandomElement: function (arr) {
-      var random = Math.floor(Math.random() * arr.length);
+    return Math.round(rand);
+  };
 
-      return arr[random];
-    },
-    getArrayRandomLength: function (len, arr) {
-      var newArr = [];
-      var value;
+  var getArrayRandomElement = function (arr) {
+    var random = Math.floor(Math.random() * arr.length);
 
-      for (var i = 0; i < len; i++) {
-        value = this.getArrayRandomElement(arr);
+    return arr[random];
+  };
 
-        newArr.push(value);
-        arr = arr.filter(function (item) {
-          return item !== value;
-        });
-      }
+  var getArrayRandomLength = function (len, arr) {
+    var newArr = [];
+    var value;
 
-      return newArr;
+    for (var i = 0; i < len; i++) {
+      value = getArrayRandomElement(arr);
+
+      newArr.push(value);
+      arr = arr.filter(function (item) {
+        return item !== value;
+      });
     }
+
+    return newArr;
+  };
+
+  window.utils = {
+    getRandomNumber: getRandomNumber,
+    getArrayRandomElement: getArrayRandomElement,
+    getArrayRandomLength: getArrayRandomLength
   };
 })();
