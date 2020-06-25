@@ -20,12 +20,55 @@
   };
 
   mapPinMainElement.addEventListener('mousedown', function (evt) {
-    if (evt.button === 0) {
-      activationPage();
-      window.form.writeAddressField(mapPinMainElement);
+    evt.preventDefault();
 
-      mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data));
-    }
+    var startCoords = {
+      x: evt.clientX,
+      y: evt. clientY
+    };
+
+    var mouseMoveHandler = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      mapPinMainElement.style.top = (mapPinMainElement.offsetTop - shift.y) + 'px';
+      mapPinMainElement.style.left = (mapPinMainElement.offsetLeft - shift.x) + 'px';
+
+      var mapPinMainCoordinates = window.form.writeAddressField(mapPinMainElement);
+
+      if (mapPinMainCoordinates.mainPinCoordinateX < window.data.MAP_WIDTH_MIN ||
+        mapPinMainCoordinates.mainPinCoordinateX > window.data.MAP_WIDTH_MAX ||
+        mapPinMainCoordinates.mainPinCoordinateY < window.data.MAP_HEIGHT_MIN ||
+        mapPinMainCoordinates.mainPinCoordinateY > window.data.MAP_HEIGHT_MAX) {
+        map.removeEventListener('mousemove', mouseMoveHandler);
+      }
+    };
+
+    var mouseUpHandler = function (upEvt) {
+      upEvt.preventDefault();
+
+      map.removeEventListener('mousemove', mouseMoveHandler);
+      map. removeEventListener('mouseup', mouseUpHandler);
+
+      if (evt.button === 0) {
+        activationPage();
+        window.form.writeAddressField(mapPinMainElement);
+
+        mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data.arrAds));
+      }
+    };
+
+    map.addEventListener('mousemove', mouseMoveHandler);
+    map.addEventListener('mouseup', mouseUpHandler);
   });
 
   mapPinMainElement.addEventListener('keydown', function (evt) {
@@ -33,7 +76,7 @@
       activationPage();
       window.form.writeAddressField(mapPinMainElement);
 
-      mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data));
+      mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data.arrAds));
     }
   });
 })();

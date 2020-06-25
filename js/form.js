@@ -16,14 +16,25 @@
     var mapPinElementHeight = mapPinElement.offsetHeight;
     var mapPinElementLeftValue = parseInt(mapPinElement.style.left, 10);
     var mapPinElementTopValue = parseInt(mapPinElement.style.top, 10);
+    var mapPinCoordinateX;
+    var mapPinCoordinateY;
 
     if (map.classList.contains('map--faded')) {
-      addressField.value = (mapPinElementLeftValue + Math.round(mapPinElementWidth / 2)) + ', '
-        + (mapPinElementTopValue + Math.round(mapPinElementHeight / 2));
+      mapPinCoordinateX = mapPinElementLeftValue + Math.round(mapPinElementWidth / 2);
+      mapPinCoordinateY = mapPinElementTopValue + Math.round(mapPinElementHeight / 2);
+
+      addressField.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
     } else {
-      addressField.value = (mapPinElementLeftValue + Math.round(mapPinElementWidth / 2)) + ', '
-        + (mapPinElementTopValue + mapPinElementHeight + MAP_PIN_POINTER_HEIGHT);
+      mapPinCoordinateX = mapPinElementLeftValue + Math.round(mapPinElementWidth / 2);
+      mapPinCoordinateY = mapPinElementTopValue + mapPinElementHeight + MAP_PIN_POINTER_HEIGHT;
+
+      addressField.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
     }
+
+    return {
+      mainPinCoordinateX: mapPinCoordinateX,
+      mainPinCoordinateY: mapPinCoordinateY
+    };
   };
 
   window.form = {
