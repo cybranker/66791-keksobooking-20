@@ -27,6 +27,24 @@
       y: evt. clientY
     };
 
+    var restrictMoveMainPin = function (coordinates) {
+      if (coordinates.mainPinCoordinateX < window.data.MAP_WIDTH_MIN) {
+        mapPinMainElement.style.left = '-32px';
+      }
+
+      if (coordinates.mainPinCoordinateX > window.data.MAP_WIDTH_MAX) {
+        mapPinMainElement.style.left = '1167px';
+      }
+
+      if (coordinates.mainPinCoordinateY < window.data.MAP_HEIGHT_MIN) {
+        mapPinMainElement.style.top = '50px';
+      }
+
+      if (coordinates.mainPinCoordinateY > window.data.MAP_HEIGHT_MAX) {
+        mapPinMainElement.style.top = '550px';
+      }
+    };
+
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
@@ -45,19 +63,14 @@
 
       var mapPinMainCoordinates = window.form.writeAddressField(mapPinMainElement);
 
-      if (mapPinMainCoordinates.mainPinCoordinateX < window.data.MAP_WIDTH_MIN ||
-        mapPinMainCoordinates.mainPinCoordinateX > window.data.MAP_WIDTH_MAX ||
-        mapPinMainCoordinates.mainPinCoordinateY < window.data.MAP_HEIGHT_MIN ||
-        mapPinMainCoordinates.mainPinCoordinateY > window.data.MAP_HEIGHT_MAX) {
-        map.removeEventListener('mousemove', mouseMoveHandler);
-      }
+      restrictMoveMainPin(mapPinMainCoordinates);
     };
 
     var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
 
       map.removeEventListener('mousemove', mouseMoveHandler);
-      map. removeEventListener('mouseup', mouseUpHandler);
+      document. removeEventListener('mouseup', mouseUpHandler);
 
       if (evt.button === 0) {
         activationPage();
@@ -68,7 +81,7 @@
     };
 
     map.addEventListener('mousemove', mouseMoveHandler);
-    map.addEventListener('mouseup', mouseUpHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   });
 
   mapPinMainElement.addEventListener('keydown', function (evt) {
