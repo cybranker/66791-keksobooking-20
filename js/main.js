@@ -20,12 +20,68 @@
   };
 
   mapPinMainElement.addEventListener('mousedown', function (evt) {
-    if (evt.button === 0) {
-      activationPage();
-      window.form.writeAddressField(mapPinMainElement);
+    evt.preventDefault();
 
-      mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data));
-    }
+    var startCoords = {
+      x: evt.clientX,
+      y: evt. clientY
+    };
+
+    var restrictMoveMainPin = function (coordinates) {
+      if (coordinates.mainPinCoordinateX < window.data.MAP_WIDTH_MIN) {
+        mapPinMainElement.style.left = '-32px';
+      }
+
+      if (coordinates.mainPinCoordinateX > window.data.MAP_WIDTH_MAX) {
+        mapPinMainElement.style.left = '1167px';
+      }
+
+      if (coordinates.mainPinCoordinateY < window.data.MAP_HEIGHT_MIN) {
+        mapPinMainElement.style.top = '50px';
+      }
+
+      if (coordinates.mainPinCoordinateY > window.data.MAP_HEIGHT_MAX) {
+        mapPinMainElement.style.top = '550px';
+      }
+    };
+
+    var mouseMoveHandler = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      mapPinMainElement.style.top = (mapPinMainElement.offsetTop - shift.y) + 'px';
+      mapPinMainElement.style.left = (mapPinMainElement.offsetLeft - shift.x) + 'px';
+
+      var mapPinMainCoordinates = window.form.writeAddressField(mapPinMainElement);
+
+      restrictMoveMainPin(mapPinMainCoordinates);
+    };
+
+    var mouseUpHandler = function (upEvt) {
+      upEvt.preventDefault();
+
+      map.removeEventListener('mousemove', mouseMoveHandler);
+      document. removeEventListener('mouseup', mouseUpHandler);
+
+      if (evt.button === 0) {
+        activationPage();
+        window.form.writeAddressField(mapPinMainElement);
+
+        mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data.arrAds));
+      }
+    };
+
+    map.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   });
 
   mapPinMainElement.addEventListener('keydown', function (evt) {
@@ -33,7 +89,7 @@
       activationPage();
       window.form.writeAddressField(mapPinMainElement);
 
-      mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data));
+      mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data.arrAds));
     }
   });
 })();

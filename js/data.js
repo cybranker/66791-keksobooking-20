@@ -73,5 +73,11 @@
     return arr;
   };
 
-  window.data = getArrayAds(QUANTITY_ADS);
+  window.data = {
+    MAP_WIDTH_MIN: MAP_WIDTH_MIN,
+    MAP_WIDTH_MAX: MAP_WIDTH_MAX,
+    MAP_HEIGHT_MIN: MAP_HEIGHT_MIN,
+    MAP_HEIGHT_MAX: MAP_HEIGHT_MAX,
+    arrAds: getArrayAds(QUANTITY_ADS)
+  };
 })();

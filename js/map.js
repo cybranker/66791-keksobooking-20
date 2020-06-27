@@ -16,7 +16,7 @@
     var mapCardPopupElement = document.querySelectorAll('.map__card');
 
     if (mapCardPopupElement.length === 0) {
-      map.insertBefore(window.card.getFragmentMapCard(window.data[mapPinElementId], mapPinElementId), map.querySelector('.map__filters-container'));
+      map.insertBefore(window.card.getFragmentMapCard(window.data.arrAds[mapPinElementId], mapPinElementId), map.querySelector('.map__filters-container'));
 
       document.addEventListener('keydown', pinElementEscPressHandler);
 
@@ -27,7 +27,7 @@
       });
     } else {
       if (mapCardPopupElement[0].dataset.id !== mapPinElementId) {
-        window.card.generationMapCard(mapCardPopupElement[0], window.data[mapPinElementId], mapPinElementId);
+        window.card.generationMapCard(mapCardPopupElement[0], window.data.arrAds[mapPinElementId], mapPinElementId);
       }
     }
   };
