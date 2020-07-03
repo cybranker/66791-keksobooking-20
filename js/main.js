@@ -19,6 +19,22 @@
     window.form.toggleDisabledFormControls(mapFiltersFormElement.children, false);
   };
 
+  var deactivationPage = function () {
+    map.classList.add('map--faded');
+    adFormElement.classList.add('ad-form--disabled');
+    window.form.toggleDisabledFormControls(adFormFieldsetElements, true);
+    window.form.toggleDisabledFormControls(mapFiltersFormElement.children, true);
+
+    var mapPinElements = mapPinsListElement.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    for (var i = 0; i < mapPinElements.length; i++) {
+      mapPinsListElement.removeChild(mapPinElements[i]);
+    }
+
+    mapPinMainElement.style = 'left: 570px; top: 375px;';
+    window.form.writeAddressField(mapPinMainElement);
+  };
+
   mapPinMainElement.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -92,4 +108,8 @@
       mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data.arrAds));
     }
   });
+
+  window.main = {
+    deactivationPage: deactivationPage
+  };
 })();

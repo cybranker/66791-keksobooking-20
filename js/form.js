@@ -37,6 +37,28 @@
     };
   };
 
+  var adFormElement = document.querySelector('.ad-form');
+
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.classList.add('error-xhr-message');
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+
+    window.message.openErrorMessage();
+  };
+
+  adFormElement.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+
+    window.backend.save(new FormData(adFormElement), function () {
+      window.message.openSuccessMessage();
+      adFormElement.reset();
+      window.main.deactivationPage();
+    }, errorHandler);
+  });
+
   window.form = {
     toggleDisabledFormControls: toggleDisabledFormControls,
     writeAddressField: writeAddressField

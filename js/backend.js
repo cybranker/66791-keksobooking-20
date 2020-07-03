@@ -39,7 +39,15 @@
     xhr.send();
   };
 
+  var save = function (data, onLoad, onError) {
+    var xhr = getCustomizedXhr(onLoad, onError);
+
+    xhr.open('POST', SERVER_URL);
+    xhr.send(data);
+  };
+
   window.backend = {
-    load: load
+    load: load,
+    save: save
   };
 })();
