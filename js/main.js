@@ -25,6 +25,12 @@
     window.form.toggleDisabledFormControls(adFormFieldsetElements, true);
     window.form.toggleDisabledFormControls(mapFiltersFormElement.children, true);
 
+    var mapCardElement = document.querySelector('.map__card');
+
+    if (mapCardElement) {
+      window.map.closeCardAds();
+    }
+
     var mapPinElements = mapPinsListElement.querySelectorAll('.map__pin:not(.map__pin--main)');
 
     for (var i = 0; i < mapPinElements.length; i++) {
