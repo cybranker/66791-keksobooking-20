@@ -1249,3 +1249,14 @@ fieldset {
 .hidden {
   display: none;
 }
+
+.error-xhr-message {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  margin: 0 auto;
+  font-size: 30px;
+  text-align: center;
+  background-color: red;
+}

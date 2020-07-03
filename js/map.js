@@ -56,4 +56,8 @@
       openCardAds(evt.target.parentElement);
     }
   });
+
+  window.map = {
+    closeCardAds: closeCardAds
+  };
 })();
