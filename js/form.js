@@ -59,6 +59,15 @@
     }, errorHandler);
   });
 
+  var adFormResetButton = adFormElement.querySelector('.ad-form__reset');
+
+  adFormResetButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+
+    adFormElement.reset();
+    window.main.deactivationPage();
+  });
+
   window.form = {
     toggleDisabledFormControls: toggleDisabledFormControls,
     writeAddressField: writeAddressField
