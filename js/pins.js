@@ -1,15 +1,17 @@
 'use strict';
 
 (function () {
+  var MAX_NUMBER_PINS = 5;
   var mapPinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
 
   var getFragmentMapPins = function (ads) {
     var fragment = document.createDocumentFragment();
+    var numberPins = (ads.length > MAX_NUMBER_PINS) ? MAX_NUMBER_PINS : ads.length;
     var mapPinElement;
 
-    for (var i = 0; i < ads.length; i++) {
+    for (var i = 0; i < numberPins; i++) {
       mapPinElement = mapPinTemplate.cloneNode(true);
 
       mapPinElement.dataset.id = i;
