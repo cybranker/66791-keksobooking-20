@@ -50,20 +50,25 @@
     };
 
     var restrictMoveMainPin = function (coordinates) {
+      var MIN_POSITION_PIN_X = -32;
+      var MAX_POSITION_PIN_X = 1167;
+      var MIN_POSITION_PIN_Y = 50;
+      var MAX_POSITION_PIN_Y = 550;
+
       if (coordinates.mainPinCoordinateX < window.data.MAP_WIDTH_MIN) {
-        mapPinMainElement.style.left = '-32px';
+        mapPinMainElement.style.left = MIN_POSITION_PIN_X + 'px';
       }
 
       if (coordinates.mainPinCoordinateX > window.data.MAP_WIDTH_MAX) {
-        mapPinMainElement.style.left = '1167px';
+        mapPinMainElement.style.left = MAX_POSITION_PIN_X + 'px';
       }
 
       if (coordinates.mainPinCoordinateY < window.data.MAP_HEIGHT_MIN) {
-        mapPinMainElement.style.top = '50px';
+        mapPinMainElement.style.top = MIN_POSITION_PIN_Y + 'px';
       }
 
       if (coordinates.mainPinCoordinateY > window.data.MAP_HEIGHT_MAX) {
-        mapPinMainElement.style.top = '550px';
+        mapPinMainElement.style.top = MAX_POSITION_PIN_Y + 'px';
       }
     };
 
