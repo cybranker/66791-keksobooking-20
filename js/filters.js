@@ -3,6 +3,7 @@
 (function () {
   var mapPinsListElement = document.querySelector('.map__pins');
   var housingTypeSelect = document.querySelector('#housing-type');
+  var arrFilterAds = [];
 
   housingTypeSelect.addEventListener('change', function (evt) {
     window.main.cleaningPins();
@@ -10,12 +11,16 @@
 
     var housingTypeSelectVal = evt.target.value;
 
-    var arrFilterHousingTypeAds = window.data.arrAds.filter(function (ad) {
+    arrFilterAds = window.data.arrAds.filter(function (ad) {
       return ad.offer.type === housingTypeSelectVal;
     });
 
-    var arrAds = (housingTypeSelectVal === 'any') ? window.data.arrAds : arrFilterHousingTypeAds;
+    window.filters.arrFilterAds = (housingTypeSelectVal === 'any') ? window.data.arrAds : arrFilterAds;
 
-    mapPinsListElement.appendChild(window.pins.getFragmentMapPins(arrAds));
+    mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.filters.arrFilterAds));
   });
+
+  window.filters = {
+    arrFilterAds: arrFilterAds
+  };
 })();

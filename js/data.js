@@ -9,6 +9,7 @@
 
   var successHandler = function (ads) {
     window.data.arrAds = ads;
+    window.filters.arrFilterAds = ads;
   };
 
   var errorHandler = function (errorMessage) {
