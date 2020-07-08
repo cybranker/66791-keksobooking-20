@@ -7,6 +7,7 @@
   var adFormFieldsetElements = adFormElement.querySelectorAll('fieldset');
   var mapFiltersFormElement = document.querySelector('.map__filters');
   var mapPinMainElement = document.querySelector('.map__pin--main');
+  var activePage = false;
 
   window.form.toggleDisabledFormControls(adFormFieldsetElements, true);
   window.form.toggleDisabledFormControls(mapFiltersFormElement.children, true);
@@ -17,6 +18,23 @@
     adFormElement.classList.remove('ad-form--disabled');
     window.form.toggleDisabledFormControls(adFormFieldsetElements, false);
     window.form.toggleDisabledFormControls(mapFiltersFormElement.children, false);
+    activePage = true;
+  };
+
+  var cleaningPins = function () {
+    var mapPinElements = mapPinsListElement.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    for (var i = 0; i < mapPinElements.length; i++) {
+      mapPinsListElement.removeChild(mapPinElements[i]);
+    }
+  };
+
+  var hideOpenCardAds = function () {
+    var mapCardElement = document.querySelector('.map__card');
+
+    if (mapCardElement) {
+      window.map.closeCardAds();
+    }
   };
 
   var deactivationPage = function () {
@@ -25,17 +43,8 @@
     window.form.toggleDisabledFormControls(adFormFieldsetElements, true);
     window.form.toggleDisabledFormControls(mapFiltersFormElement.children, true);
 
-    var mapCardElement = document.querySelector('.map__card');
-
-    if (mapCardElement) {
-      window.map.closeCardAds();
-    }
-
-    var mapPinElements = mapPinsListElement.querySelectorAll('.map__pin:not(.map__pin--main)');
-
-    for (var i = 0; i < mapPinElements.length; i++) {
-      mapPinsListElement.removeChild(mapPinElements[i]);
-    }
+    hideOpenCardAds();
+    cleaningPins();
 
     mapPinMainElement.style = 'left: 570px; top: 375px;';
     window.form.writeAddressField(mapPinMainElement);
@@ -99,7 +108,7 @@
       map.removeEventListener('mousemove', mouseMoveHandler);
       document. removeEventListener('mouseup', mouseUpHandler);
 
-      if (evt.button === 0) {
+      if (evt.button === 0 && !activePage) {
         activationPage();
         window.form.writeAddressField(mapPinMainElement);
 
@@ -112,7 +121,7 @@
   });
 
   mapPinMainElement.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter') {
+    if (evt.key === 'Enter' && !activePage) {
       activationPage();
       window.form.writeAddressField(mapPinMainElement);
 
@@ -121,6 +130,8 @@
   });
 
   window.main = {
-    deactivationPage: deactivationPage
+    deactivationPage: deactivationPage,
+    cleaningPins: cleaningPins,
+    hideOpenCardAds: hideOpenCardAds
   };
 })();
