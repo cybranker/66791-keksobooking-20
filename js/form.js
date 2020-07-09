@@ -2,7 +2,7 @@
 
 (function () {
   var MAP_PIN_POINTER_HEIGHT = 15;
-  var map = document.querySelector('.map');
+  var mapElement = document.querySelector('.map');
 
   var toggleDisabledFormControls = function (formControls, toggle) {
     for (var i = 0; i < formControls.length; i++) {
@@ -11,7 +11,7 @@
   };
 
   var writeAddressField = function (mapPinElement) {
-    var addressField = document.querySelector('#address');
+    var addressFieldElement = document.querySelector('#address');
     var mapPinElementWidth = mapPinElement.offsetWidth;
     var mapPinElementHeight = mapPinElement.offsetHeight;
     var mapPinElementLeftValue = parseInt(mapPinElement.style.left, 10);
@@ -19,16 +19,16 @@
     var mapPinCoordinateX;
     var mapPinCoordinateY;
 
-    if (map.classList.contains('map--faded')) {
+    if (mapElement.classList.contains('map--faded')) {
       mapPinCoordinateX = mapPinElementLeftValue + Math.round(mapPinElementWidth / 2);
       mapPinCoordinateY = mapPinElementTopValue + Math.round(mapPinElementHeight / 2);
 
-      addressField.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
+      addressFieldElement.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
     } else {
       mapPinCoordinateX = mapPinElementLeftValue + Math.round(mapPinElementWidth / 2);
       mapPinCoordinateY = mapPinElementTopValue + mapPinElementHeight + MAP_PIN_POINTER_HEIGHT;
 
-      addressField.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
+      addressFieldElement.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
     }
 
     return {
@@ -59,9 +59,9 @@
     }, errorHandler);
   });
 
-  var adFormResetButton = adFormElement.querySelector('.ad-form__reset');
+  var adFormResetButtonElement = adFormElement.querySelector('.ad-form__reset');
 
-  adFormResetButton.addEventListener('click', function (evt) {
+  adFormResetButtonElement.addEventListener('click', function (evt) {
     evt.preventDefault();
 
     adFormElement.reset();

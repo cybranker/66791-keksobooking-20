@@ -2,10 +2,10 @@
 
 (function () {
   var mapPinsListElement = document.querySelector('.map__pins');
-  var housingTypeSelect = document.querySelector('#housing-type');
+  var selectHousingTypeElement = document.querySelector('#housing-type');
   var arrFilterAds = [];
 
-  housingTypeSelect.addEventListener('change', function (evt) {
+  selectHousingTypeElement.addEventListener('change', function (evt) {
     window.main.cleaningPins();
     window.main.hideOpenCardAds();
 
