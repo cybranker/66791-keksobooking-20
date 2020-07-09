@@ -37,17 +37,21 @@
     }
   };
 
+  var formMapFiltersElement = document.querySelector('.map__filters');
+
   var deactivationPage = function () {
     mapElement.classList.add('map--faded');
     adFormElement.classList.add('ad-form--disabled');
     window.form.toggleDisabledFormControls(adFormFieldsetElements, true);
     window.form.toggleDisabledFormControls(mapFiltersFormElement.children, true);
-
     hideOpenCardAds();
     cleaningPins();
 
     mapPinMainElement.style = 'left: 570px; top: 375px;';
     window.form.writeAddressField(mapPinMainElement);
+    window.filters.arrFilterAds = window.data.arrAds;
+    formMapFiltersElement.reset();
+    activePage = false;
   };
 
   mapPinMainElement.addEventListener('mousedown', function (evt) {
