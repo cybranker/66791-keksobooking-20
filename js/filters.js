@@ -98,40 +98,44 @@
   };
 
   formMapFiltersElement.addEventListener('change', function (evt) {
-    window.main.cleaningPins();
-    window.main.hideOpenCardAds();
+    var filterOut = window.debounce(function () {
+      window.main.cleaningPins();
+      window.main.hideOpenCardAds();
 
-    if (evt.target) {
-      if (evt.target.matches('#housing-type')) {
-        filteringValues.type = evt.target.value;
-      }
+      if (evt.target) {
+        if (evt.target.matches('#housing-type')) {
+          filteringValues.type = evt.target.value;
+        }
 
-      if (evt.target.matches('#housing-price')) {
-        filteringValues.price = evt.target.value;
-      }
+        if (evt.target.matches('#housing-price')) {
+          filteringValues.price = evt.target.value;
+        }
 
-      if (evt.target.matches('#housing-rooms')) {
-        filteringValues.rooms = evt.target.value;
-      }
+        if (evt.target.matches('#housing-rooms')) {
+          filteringValues.rooms = evt.target.value;
+        }
 
-      if (evt.target.matches('#housing-guests')) {
-        filteringValues.guests = evt.target.value;
-      }
+        if (evt.target.matches('#housing-guests')) {
+          filteringValues.guests = evt.target.value;
+        }
 
-      if (evt.target.matches('input[name="features"]')) {
-        if (evt.target.checked) {
-          filteringValues.features.push(evt.target.value);
-        } else {
-          var indexDel = filteringValues.features.indexOf(evt.target.value);
+        if (evt.target.matches('input[name="features"]')) {
+          if (evt.target.checked) {
+            filteringValues.features.push(evt.target.value);
+          } else {
+            var indexDel = filteringValues.features.indexOf(evt.target.value);
 
-          filteringValues.features.splice(indexDel, 1);
+            filteringValues.features.splice(indexDel, 1);
+          }
         }
       }
-    }
 
-    window.filters.arrFilterAds = getArrFilterAds(filteringValues);
+      window.filters.arrFilterAds = getArrFilterAds(filteringValues);
 
-    mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.filters.arrFilterAds));
+      mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.filters.arrFilterAds));
+    });
+
+    filterOut();
   });
 
   window.filters = {
