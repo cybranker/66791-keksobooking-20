@@ -64,6 +64,8 @@
 
         return priceType === filterVals.price;
       });
+
+      arrFilter = (arrFilter.length === 0) ? null : arrFilter;
     }
 
     if (filterVals.rooms !== 'any' && arrFilter) {
