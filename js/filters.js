@@ -13,6 +13,16 @@
     features: []
   };
 
+  var isSameFeatures = function (arrFeatures, arrFilterFeatures) {
+    for (var i = 0; i < arrFilterFeatures.length; i++) {
+      if (arrFeatures.indexOf(arrFilterFeatures[i]) === -1) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   var getArrFilterAds = function (filterVals) {
     var defaultfilteringValues = {
       type: 'any',
@@ -69,6 +79,14 @@
 
       arrFilter = arrAds.filter(function (ad) {
         return ad.offer.guests === parseInt(filterVals.guests, 10);
+      });
+    }
+
+    if (filterVals.features !== 'any' && arrFilter) {
+      arrAds = (arrFilter.length > 0) ? arrFilter : window.data.arrAds;
+
+      arrFilter = arrAds.filter(function (ad) {
+        return isSameFeatures(ad.offer.features, filterVals.features);
       });
     }
 
