@@ -72,6 +72,8 @@
       arrFilter = arrAds.filter(function (ad) {
         return ad.offer.rooms === parseInt(filterVals.rooms, 10);
       });
+
+      arrFilter = (arrFilter.length === 0) ? null : arrFilter;
     }
 
     if (filterVals.guests !== 'any' && arrFilter) {
@@ -80,6 +82,8 @@
       arrFilter = arrAds.filter(function (ad) {
         return ad.offer.guests === parseInt(filterVals.guests, 10);
       });
+
+      arrFilter = (arrFilter.length === 0) ? null : arrFilter;
     }
 
     if (filterVals.features !== 'any' && arrFilter) {
@@ -88,6 +92,8 @@
       arrFilter = arrAds.filter(function (ad) {
         return isSameFeatures(ad.offer.features, filterVals.features);
       });
+
+      arrFilter = (arrFilter.length === 0) ? null : arrFilter;
     }
 
     if (JSON.stringify(filterVals) === JSON.stringify(defaultfilteringValues)) {
