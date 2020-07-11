@@ -25,8 +25,52 @@
     return isSame;
   };
 
-  var getArrFilterAds = function (filterVals) {
-    var defaultfilteringValues = {
+  var filterByType = function (ads, filterVals) {
+    return ads.filter(function (ad) {
+      return ad.offer.type === filterVals.type;
+    });
+  };
+
+  var filterByPrice = function (ads, filterVals) {
+    return ads.filter(function (ad) {
+      var priceType = '';
+
+      if (ad.offer.price >= 10000 && ad.offer.price <= 50000) {
+        priceType = 'middle';
+      }
+
+      if (ad.offer.price < 10000) {
+        priceType = 'low';
+      }
+
+      if (ad.offer.price > 50000) {
+        priceType = 'high';
+      }
+
+      return priceType === filterVals.price;
+    });
+  };
+
+  var filterByRooms = function (ads, filterVals) {
+    return ads.filter(function (ad) {
+      return ad.offer.rooms === parseInt(filterVals.rooms, 10);
+    });
+  };
+
+  var filterByGuests = function (ads, filterVals) {
+    return ads.filter(function (ad) {
+      return ad.offer.guests === parseInt(filterVals.guests, 10);
+    });
+  };
+
+  var filterByFeatures = function (ads, filterVals) {
+    return ads.filter(function (ad) {
+      return isSameFeatures(ad.offer.features, filterVals.features);
+    });
+  };
+
+  var getFilterData = function (filterVals) {
+    var defaultFilteringValues = {
       type: 'any',
       price: 'any',
       rooms: 'any',
@@ -36,71 +80,37 @@
     var arrFilter = [];
     var arrAds;
 
-    if (filterVals.type !== 'any') {
+    if (filterVals.type !== 'any' && arrFilter) {
       arrAds = (arrFilter.length > 0) ? arrFilter : window.data.arrAds;
-
-      arrFilter = arrAds.filter(function (ad) {
-        return ad.offer.type === filterVals.type;
-      });
-
+      arrFilter = filterByType(arrAds, filterVals);
       arrFilter = (arrFilter.length === 0) ? null : arrFilter;
     }
 
     if (filterVals.price !== 'any' && arrFilter) {
       arrAds = (arrFilter.length > 0) ? arrFilter : window.data.arrAds;
-
-      arrFilter = arrAds.filter(function (ad) {
-        var priceType = '';
-
-        if (ad.offer.price >= 10000 && ad.offer.price <= 50000) {
-          priceType = 'middle';
-        }
-
-        if (ad.offer.price < 10000) {
-          priceType = 'low';
-        }
-
-        if (ad.offer.price > 50000) {
-          priceType = 'high';
-        }
-
-        return priceType === filterVals.price;
-      });
-
+      arrFilter = filterByPrice(arrAds, filterVals);
       arrFilter = (arrFilter.length === 0) ? null : arrFilter;
     }
 
     if (filterVals.rooms !== 'any' && arrFilter) {
       arrAds = (arrFilter.length > 0) ? arrFilter : window.data.arrAds;
-
-      arrFilter = arrAds.filter(function (ad) {
-        return ad.offer.rooms === parseInt(filterVals.rooms, 10);
-      });
-
+      arrFilter = filterByRooms(arrAds, filterVals);
       arrFilter = (arrFilter.length === 0) ? null : arrFilter;
     }
 
     if (filterVals.guests !== 'any' && arrFilter) {
       arrAds = (arrFilter.length > 0) ? arrFilter : window.data.arrAds;
-
-      arrFilter = arrAds.filter(function (ad) {
-        return ad.offer.guests === parseInt(filterVals.guests, 10);
-      });
-
+      arrFilter = filterByGuests(arrAds, filterVals);
       arrFilter = (arrFilter.length === 0) ? null : arrFilter;
     }
 
-    if (filterVals.features !== 'any' && arrFilter) {
+    if (filterVals.features !== [] && arrFilter) {
       arrAds = (arrFilter.length > 0) ? arrFilter : window.data.arrAds;
-
-      arrFilter = arrAds.filter(function (ad) {
-        return isSameFeatures(ad.offer.features, filterVals.features);
-      });
-
+      arrFilter = filterByFeatures(arrAds, filterVals);
       arrFilter = (arrFilter.length === 0) ? null : arrFilter;
     }
 
-    if (JSON.stringify(filterVals) === JSON.stringify(defaultfilteringValues)) {
+    if (JSON.stringify(filterVals) === JSON.stringify(defaultFilteringValues)) {
       arrFilter = window.data.arrAds;
     }
 
@@ -140,7 +150,7 @@
         }
       }
 
-      window.filters.arrFilterAds = getArrFilterAds(window.filters.filteringValues);
+      window.filters.arrFilterAds = getFilterData(window.filters.filteringValues);
 
       mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.filters.arrFilterAds));
     });
