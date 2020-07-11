@@ -3,6 +3,10 @@
 (function () {
   var MIN_CAPACITY_SELECT_VALUE = 0;
   var MAX_ROOM_NUMBER_SELECT_VALUE = 100;
+  var MIN_FLAT_PRICE = 1000;
+  var MIN_BUNGALO_PRICE = 0;
+  var MIN_HOUSE_PRICE = 5000;
+  var MIN_PALACE_PRICE = 10000;
 
   var adFormElement = document.querySelector('.ad-form');
   var selectRoomNumberElement = document.querySelector('#room_number');
@@ -55,22 +59,22 @@
 
     switch (typeValue) {
       case 'flat':
-        minPrice = 1000;
+        minPrice = MIN_FLAT_PRICE;
         inputPriceElement.min = minPrice;
         inputPriceElement.placeholder = minPrice;
         break;
       case 'bungalo':
-        minPrice = 0;
+        minPrice = MIN_BUNGALO_PRICE;
         inputPriceElement.min = minPrice;
         inputPriceElement.placeholder = minPrice;
         break;
       case 'house':
-        minPrice = 5000;
+        minPrice = MIN_HOUSE_PRICE;
         inputPriceElement.min = minPrice;
         inputPriceElement.placeholder = minPrice;
         break;
       case 'palace':
-        minPrice = 10000;
+        minPrice = MIN_PALACE_PRICE;
         inputPriceElement.min = minPrice;
         inputPriceElement.placeholder = minPrice;
         break;
