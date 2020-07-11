@@ -28,6 +28,22 @@
       mapPinCoordinateX = mapPinElementLeftValue + Math.round(mapPinElementWidth / 2);
       mapPinCoordinateY = mapPinElementTopValue + mapPinElementHeight + MAP_PIN_POINTER_HEIGHT;
 
+      if (mapPinCoordinateX < window.data.MAP_WIDTH_MIN) {
+        mapPinCoordinateX = window.data.MAP_WIDTH_MIN;
+      }
+
+      if (mapPinCoordinateX > window.data.MAP_WIDTH_MAX) {
+        mapPinCoordinateX = window.data.MAP_WIDTH_MAX;
+      }
+
+      if (mapPinCoordinateY < window.data.MAP_HEIGHT_MIN) {
+        mapPinCoordinateY = window.data.MAP_HEIGHT_MIN;
+      }
+
+      if (mapPinCoordinateY > window.data.MAP_HEIGHT_MAX) {
+        mapPinCoordinateY = window.data.MAP_HEIGHT_MAX;
+      }
+
       addressFieldElement.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
     }
 
