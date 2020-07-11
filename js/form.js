@@ -5,12 +5,12 @@
   var mapElement = document.querySelector('.map');
 
   var toggleDisabledFormControls = function (formControls, toggle) {
-    for (var i = 0; i < formControls.length; i++) {
-      formControls[i].disabled = toggle;
-    }
+    Array.from(formControls).map(function (formControl) {
+      formControl.disabled = toggle;
+    });
   };
 
-  var writeAddressField = function (mapPinElement) {
+  var setAddressField = function (mapPinElement) {
     var addressFieldElement = document.querySelector('#address');
     var mapPinElementWidth = mapPinElement.offsetWidth;
     var mapPinElementHeight = mapPinElement.offsetHeight;
@@ -55,7 +55,7 @@
     window.backend.save(new FormData(adFormElement), function () {
       window.message.openSuccessMessage();
       adFormElement.reset();
-      window.main.deactivationPage();
+      window.main.deactivatePage();
     }, errorHandler);
   });
 
@@ -65,11 +65,11 @@
     evt.preventDefault();
 
     adFormElement.reset();
-    window.main.deactivationPage();
+    window.main.deactivatePage();
   });
 
   window.form = {
     toggleDisabledFormControls: toggleDisabledFormControls,
-    writeAddressField: writeAddressField
+    setAddressField: setAddressField
   };
 })();

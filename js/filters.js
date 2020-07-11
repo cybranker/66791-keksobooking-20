@@ -119,8 +119,8 @@
 
   formMapFiltersElement.addEventListener('change', function (evt) {
     var filterOut = window.debounce(function () {
-      window.main.cleaningPins();
-      window.main.hideOpenCardAds();
+      window.main.resetPins();
+      window.main.closeCardHandler();
 
       if (evt.target) {
         if (evt.target.matches('#housing-type')) {
