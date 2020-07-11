@@ -3,7 +3,7 @@
 (function () {
   var messageEscHandler;
   var messageEscClose = function (evt, messageElement) {
-    if (evt.key === 'Escape') {
+    if (evt.key === window.map.KEY.ESCAPE) {
       evt.preventDefault();
       closeMessage(messageElement);
     }
