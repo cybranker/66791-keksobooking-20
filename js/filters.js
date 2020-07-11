@@ -14,13 +14,15 @@
   };
 
   var isSameFeatures = function (arrFeatures, arrFilterFeatures) {
-    for (var i = 0; i < arrFilterFeatures.length; i++) {
-      if (arrFeatures.indexOf(arrFilterFeatures[i]) === -1) {
-        return false;
-      }
-    }
+    var isSame = true;
 
-    return true;
+    arrFilterFeatures.forEach(function (it) {
+      if (arrFeatures.indexOf(it) === -1) {
+        isSame = false;
+      }
+    });
+
+    return isSame;
   };
 
   var getArrFilterAds = function (filterVals) {
@@ -112,33 +114,33 @@
 
       if (evt.target) {
         if (evt.target.matches('#housing-type')) {
-          filteringValues.type = evt.target.value;
+          window.filters.filteringValues.type = evt.target.value;
         }
 
         if (evt.target.matches('#housing-price')) {
-          filteringValues.price = evt.target.value;
+          window.filters.filteringValues.price = evt.target.value;
         }
 
         if (evt.target.matches('#housing-rooms')) {
-          filteringValues.rooms = evt.target.value;
+          window.filters.filteringValues.rooms = evt.target.value;
         }
 
         if (evt.target.matches('#housing-guests')) {
-          filteringValues.guests = evt.target.value;
+          window.filters.filteringValues.guests = evt.target.value;
         }
 
         if (evt.target.matches('input[name="features"]')) {
           if (evt.target.checked) {
-            filteringValues.features.push(evt.target.value);
+            window.filters.filteringValues.features.push(evt.target.value);
           } else {
-            var indexDel = filteringValues.features.indexOf(evt.target.value);
+            var indexDel = window.filters.filteringValues.features.indexOf(evt.target.value);
 
-            filteringValues.features.splice(indexDel, 1);
+            window.filters.filteringValues.features.splice(indexDel, 1);
           }
         }
       }
 
-      window.filters.arrFilterAds = getArrFilterAds(filteringValues);
+      window.filters.arrFilterAds = getArrFilterAds(window.filters.filteringValues);
 
       mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.filters.arrFilterAds));
     });
@@ -147,6 +149,7 @@
   });
 
   window.filters = {
+    filteringValues: filteringValues,
     arrFilterAds: arrFilterAds
   };
 })();

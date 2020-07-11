@@ -50,6 +50,13 @@
     mapPinMainElement.style = 'left: 570px; top: 375px;';
     window.form.writeAddressField(mapPinMainElement);
     window.filters.arrFilterAds = window.data.arrAds;
+    window.filters.filteringValues = {
+      type: 'any',
+      price: 'any',
+      rooms: 'any',
+      guests: 'any',
+      features: []
+    };
     formMapFiltersElement.reset();
     activePage = false;
   };
