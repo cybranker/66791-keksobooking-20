@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var MIN_INTERVAL_PRICE = 10000;
+  var MAX_INTERVAL_PRICE = 50000;
+
   var mapPinsListElement = document.querySelector('.map__pins');
   var formMapFiltersElement = document.querySelector('.map__filters');
   var arrFilterAds = [];
@@ -35,15 +38,15 @@
     return ads.filter(function (ad) {
       var priceType = '';
 
-      if (ad.offer.price >= 10000 && ad.offer.price <= 50000) {
+      if (ad.offer.price >= MIN_INTERVAL_PRICE && ad.offer.price <= MAX_INTERVAL_PRICE) {
         priceType = 'middle';
       }
 
-      if (ad.offer.price < 10000) {
+      if (ad.offer.price < MIN_INTERVAL_PRICE) {
         priceType = 'low';
       }
 
-      if (ad.offer.price > 50000) {
+      if (ad.offer.price > MAX_INTERVAL_PRICE) {
         priceType = 'high';
       }
 
