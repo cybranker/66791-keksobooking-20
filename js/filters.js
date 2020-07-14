@@ -3,6 +3,13 @@
 (function () {
   var MIN_INTERVAL_PRICE = 10000;
   var MAX_INTERVAL_PRICE = 50000;
+  var FILTER_NAMES = {
+    TYPE: 'type',
+    PRICE: 'price',
+    ROOMS: 'rooms',
+    GUESTS: 'guests',
+    FEATURES: 'features'
+  };
 
   var mapPinsListElement = document.querySelector('.map__pins');
   var formMapFiltersElement = document.querySelector('.map__filters');
@@ -72,6 +79,34 @@
     });
   };
 
+  var getArrFilterByType = function (type, arrFilter, filterVals) {
+    if (arrFilter && filterVals[type] !== 'any') {
+      var arrAds = (arrFilter.length > 0) ? arrFilter : window.data.arrAds;
+
+      switch (type) {
+        case FILTER_NAMES.TYPE:
+          arrFilter = filterByType(arrAds, filterVals);
+          break;
+        case FILTER_NAMES.PRICE:
+          arrFilter = filterByPrice(arrAds, filterVals);
+          break;
+        case FILTER_NAMES.ROOMS:
+          arrFilter = filterByRooms(arrAds, filterVals);
+          break;
+        case FILTER_NAMES.GUESTS:
+          arrFilter = filterByGuests(arrAds, filterVals);
+          break;
+        case FILTER_NAMES.FEATURES:
+          arrFilter = filterByFeatures(arrAds, filterVals);
+          break;
+      }
+
+      arrFilter = (arrFilter.length === 0) ? null : arrFilter;
+    }
+
+    return arrFilter;
+  };
+
   var getFilterData = function (filterVals) {
     var defaultFilteringValues = {
       type: 'any',
@@ -81,37 +116,12 @@
       features: []
     };
     var arrFilter = [];
-    var arrAds;
 
-    if (filterVals.type !== 'any' && arrFilter) {
-      arrAds = (arrFilter.length > 0) ? arrFilter : window.data.arrAds;
-      arrFilter = filterByType(arrAds, filterVals);
-      arrFilter = (arrFilter.length === 0) ? null : arrFilter;
-    }
-
-    if (filterVals.price !== 'any' && arrFilter) {
-      arrAds = (arrFilter.length > 0) ? arrFilter : window.data.arrAds;
-      arrFilter = filterByPrice(arrAds, filterVals);
-      arrFilter = (arrFilter.length === 0) ? null : arrFilter;
-    }
-
-    if (filterVals.rooms !== 'any' && arrFilter) {
-      arrAds = (arrFilter.length > 0) ? arrFilter : window.data.arrAds;
-      arrFilter = filterByRooms(arrAds, filterVals);
-      arrFilter = (arrFilter.length === 0) ? null : arrFilter;
-    }
-
-    if (filterVals.guests !== 'any' && arrFilter) {
-      arrAds = (arrFilter.length > 0) ? arrFilter : window.data.arrAds;
-      arrFilter = filterByGuests(arrAds, filterVals);
-      arrFilter = (arrFilter.length === 0) ? null : arrFilter;
-    }
-
-    if (filterVals.features !== [] && arrFilter) {
-      arrAds = (arrFilter.length > 0) ? arrFilter : window.data.arrAds;
-      arrFilter = filterByFeatures(arrAds, filterVals);
-      arrFilter = (arrFilter.length === 0) ? null : arrFilter;
-    }
+    arrFilter = getArrFilterByType(FILTER_NAMES.TYPE, arrFilter, filterVals);
+    arrFilter = getArrFilterByType(FILTER_NAMES.PRICE, arrFilter, filterVals);
+    arrFilter = getArrFilterByType(FILTER_NAMES.ROOMS, arrFilter, filterVals);
+    arrFilter = getArrFilterByType(FILTER_NAMES.GUESTS, arrFilter, filterVals);
+    arrFilter = getArrFilterByType(FILTER_NAMES.FEATURES, arrFilter, filterVals);
 
     if (JSON.stringify(filterVals) === JSON.stringify(defaultFilteringValues)) {
       arrFilter = window.data.arrAds;
