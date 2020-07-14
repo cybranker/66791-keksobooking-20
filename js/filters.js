@@ -130,7 +130,7 @@
     return (arrFilter) ? arrFilter : [];
   };
 
-  var installFilteringValues = function (type, value) {
+  var setFilteringValues = function (type, value) {
     window.filters.filteringValues[type] = value;
   };
 
@@ -141,19 +141,19 @@
 
       if (evt.target) {
         if (evt.target.matches('#housing-type')) {
-          installFilteringValues(FILTER_NAMES.TYPE, evt.target.value);
+          setFilteringValues(FILTER_NAMES.TYPE, evt.target.value);
         }
 
         if (evt.target.matches('#housing-price')) {
-          installFilteringValues(FILTER_NAMES.PRICE, evt.target.value);
+          setFilteringValues(FILTER_NAMES.PRICE, evt.target.value);
         }
 
         if (evt.target.matches('#housing-rooms')) {
-          installFilteringValues(FILTER_NAMES.ROOMS, evt.target.value);
+          setFilteringValues(FILTER_NAMES.ROOMS, evt.target.value);
         }
 
         if (evt.target.matches('#housing-guests')) {
-          installFilteringValues(FILTER_NAMES.GUESTS, evt.target.value);
+          setFilteringValues(FILTER_NAMES.GUESTS, evt.target.value);
         }
 
         if (evt.target.matches('input[name="features"]')) {
