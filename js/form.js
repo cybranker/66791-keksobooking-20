@@ -62,14 +62,14 @@
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
 
-    window.message.openErrorMessage();
+    window.message.openError();
   };
 
   adFormElement.addEventListener('submit', function (evt) {
     evt.preventDefault();
 
     window.backend.save(new FormData(adFormElement), function () {
-      window.message.openSuccessMessage();
+      window.message.openSuccess();
       adFormElement.reset();
       window.main.deactivatePage();
     }, errorHandler);

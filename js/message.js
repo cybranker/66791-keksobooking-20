@@ -70,7 +70,7 @@
   };
 
   window.message = {
-    openSuccessMessage: openSuccessMessage,
-    openErrorMessage: openErrorMessage
+    openSuccess: openSuccessMessage,
+    openError: openErrorMessage
   };
 })();

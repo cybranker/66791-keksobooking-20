@@ -5,6 +5,8 @@
   var MAX_POSITION_PIN_X = 1167;
   var MIN_POSITION_PIN_Y = 50;
   var MAX_POSITION_PIN_Y = 550;
+  var DEFAULT_POSITION_MAIN_PIN_X = 570;
+  var DEFAULT_POSITION_MAIN_PIN_Y = 375;
 
   var mapElement = document.querySelector('.map');
   var mapPinsListElement = document.querySelector('.map__pins');
@@ -52,16 +54,10 @@
     closeCardHandler();
     resetPins();
 
-    mapPinMainElement.style = 'left: 570px; top: 375px;';
+    mapPinMainElement.style.left = DEFAULT_POSITION_MAIN_PIN_X + 'px';
+    mapPinMainElement.style.top = DEFAULT_POSITION_MAIN_PIN_Y + 'px';
     window.form.setAddressField(mapPinMainElement);
     window.filters.arrFilterAds = window.data.arrAds;
-    window.filters.filteringValues = {
-      type: 'any',
-      price: 'any',
-      rooms: 'any',
-      guests: 'any',
-      features: []
-    };
     formMapFiltersElement.reset();
     activePage = false;
   };
