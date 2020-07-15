@@ -24,9 +24,9 @@
 
       document.addEventListener('keydown', pinElementEscPressHandler);
 
-      var mapCardAdClose = document.querySelector('.map__card').querySelector('.popup__close');
+      var popupCloseElement = document.querySelector('.map__card').querySelector('.popup__close');
 
-      mapCardAdClose.addEventListener('click', function () {
+      popupCloseElement.addEventListener('click', function () {
         closeCardAds();
       });
     } else {
