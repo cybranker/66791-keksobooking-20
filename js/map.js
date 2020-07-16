@@ -1,11 +1,15 @@
 'use strict';
 
 (function () {
+  var KEY = {
+    ESCAPE: 'Escape',
+    ENTER: 'Enter'
+  };
   var mapElement = document.querySelector('.map');
   var mapPinsListElement = document.querySelector('.map__pins');
 
   var pinElementEscPressHandler = function (evt) {
-    if (evt.key === 'Escape') {
+    if (evt.key === KEY.ESCAPE) {
       evt.preventDefault();
       closeCardAds();
     }
@@ -20,9 +24,9 @@
 
       document.addEventListener('keydown', pinElementEscPressHandler);
 
-      var mapCardAdClose = document.querySelector('.map__card').querySelector('.popup__close');
+      var popupCloseElement = document.querySelector('.map__card').querySelector('.popup__close');
 
-      mapCardAdClose.addEventListener('click', function () {
+      popupCloseElement.addEventListener('click', function () {
         closeCardAds();
       });
     } else {
@@ -48,16 +52,17 @@
   });
 
   mapPinsListElement.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter' && evt.target && evt.target.matches('.map__pin:not(.map__pin--main)')) {
+    if (evt.key === KEY.ENTER && evt.target && evt.target.matches('.map__pin:not(.map__pin--main)')) {
       openCardAds(evt.target);
     }
 
-    if (evt.key === 'Enter' && evt.target && evt.target.parentElement.matches('.map__pin:not(.map__pin--main)')) {
+    if (evt.key === KEY.ENTER && evt.target && evt.target.parentElement.matches('.map__pin:not(.map__pin--main)')) {
       openCardAds(evt.target.parentElement);
     }
   });
 
   window.map = {
+    KEY: KEY,
     closeCardAds: closeCardAds
   };
 })();

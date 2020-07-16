@@ -5,12 +5,12 @@
   var mapElement = document.querySelector('.map');
 
   var toggleDisabledFormControls = function (formControls, toggle) {
-    for (var i = 0; i < formControls.length; i++) {
-      formControls[i].disabled = toggle;
-    }
+    Array.from(formControls).map(function (formControl) {
+      formControl.disabled = toggle;
+    });
   };
 
-  var writeAddressField = function (mapPinElement) {
+  var setAddressField = function (mapPinElement) {
     var addressFieldElement = document.querySelector('#address');
     var mapPinElementWidth = mapPinElement.offsetWidth;
     var mapPinElementHeight = mapPinElement.offsetHeight;
@@ -27,6 +27,22 @@
     } else {
       mapPinCoordinateX = mapPinElementLeftValue + Math.round(mapPinElementWidth / 2);
       mapPinCoordinateY = mapPinElementTopValue + mapPinElementHeight + MAP_PIN_POINTER_HEIGHT;
+
+      if (mapPinCoordinateX < window.data.MAP_WIDTH_MIN) {
+        mapPinCoordinateX = window.data.MAP_WIDTH_MIN;
+      }
+
+      if (mapPinCoordinateX > window.data.MAP_WIDTH_MAX) {
+        mapPinCoordinateX = window.data.MAP_WIDTH_MAX;
+      }
+
+      if (mapPinCoordinateY < window.data.MAP_HEIGHT_MIN) {
+        mapPinCoordinateY = window.data.MAP_HEIGHT_MIN;
+      }
+
+      if (mapPinCoordinateY > window.data.MAP_HEIGHT_MAX) {
+        mapPinCoordinateY = window.data.MAP_HEIGHT_MAX;
+      }
 
       addressFieldElement.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
     }
@@ -46,16 +62,16 @@
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
 
-    window.message.openErrorMessage();
+    window.message.openError();
   };
 
   adFormElement.addEventListener('submit', function (evt) {
     evt.preventDefault();
 
     window.backend.save(new FormData(adFormElement), function () {
-      window.message.openSuccessMessage();
+      window.message.openSuccess();
       adFormElement.reset();
-      window.main.deactivationPage();
+      window.main.deactivatePage();
     }, errorHandler);
   });
 
@@ -65,11 +81,11 @@
     evt.preventDefault();
 
     adFormElement.reset();
-    window.main.deactivationPage();
+    window.main.deactivatePage();
   });
 
   window.form = {
     toggleDisabledFormControls: toggleDisabledFormControls,
-    writeAddressField: writeAddressField
+    setAddressField: setAddressField
   };
 })();
