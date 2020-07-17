@@ -14,6 +14,8 @@
   var adFormFieldsetElements = adFormElement.querySelectorAll('fieldset');
   var mapFiltersFormElement = document.querySelector('.map__filters');
   var mapPinMainElement = document.querySelector('.map__pin--main');
+  var adFormPreviewElement = document.querySelector('.ad-form-header__preview img');
+  var adFormPhotoElement = document.querySelector('.ad-form__photo');
   var activePage = false;
 
   window.form.toggleDisabledFormControls(adFormFieldsetElements, true);
@@ -58,6 +60,8 @@
     mapPinMainElement.style.top = DEFAULT_POSITION_MAIN_PIN_Y + 'px';
     window.form.setAddressField(mapPinMainElement);
     window.filters.arrFilterAds = window.data.arrAds;
+    adFormPreviewElement.src = 'img/muffin-grey.svg';
+    adFormPhotoElement.style.backgroundImage = 'none';
     formMapFiltersElement.reset();
     activePage = false;
   };
