@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var KEY = {
+  var Key = {
     ESCAPE: 'Escape',
     ENTER: 'Enter'
   };
@@ -9,7 +9,7 @@
   var mapPinsListElement = document.querySelector('.map__pins');
 
   var pinElementEscPressHandler = function (evt) {
-    if (evt.key === KEY.ESCAPE) {
+    if (evt.key === Key.ESCAPE) {
       evt.preventDefault();
       closeCardAds();
     }
@@ -52,17 +52,17 @@
   });
 
   mapPinsListElement.addEventListener('keydown', function (evt) {
-    if (evt.key === KEY.ENTER && evt.target && evt.target.matches('.map__pin:not(.map__pin--main)')) {
+    if (evt.key === Key.ENTER && evt.target && evt.target.matches('.map__pin:not(.map__pin--main)')) {
       openCardAds(evt.target);
     }
 
-    if (evt.key === KEY.ENTER && evt.target && evt.target.parentElement.matches('.map__pin:not(.map__pin--main)')) {
+    if (evt.key === Key.ENTER && evt.target && evt.target.parentElement.matches('.map__pin:not(.map__pin--main)')) {
       openCardAds(evt.target.parentElement);
     }
   });
 
   window.map = {
-    KEY: KEY,
+    Key: Key,
     closeCardAds: closeCardAds
   };
 })();

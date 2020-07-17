@@ -128,7 +128,7 @@
   });
 
   mapPinMainElement.addEventListener('keydown', function (evt) {
-    if (evt.key === window.map.KEY.ENTER && !activePage) {
+    if (evt.key === window.map.Key.ENTER && !activePage) {
       activatePage();
       window.form.setAddressField(mapPinMainElement);
 
