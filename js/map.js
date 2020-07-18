@@ -20,7 +20,7 @@
     var mapCardPopupElement = document.querySelectorAll('.map__card');
 
     if (mapCardPopupElement.length === 0) {
-      mapElement.insertBefore(window.card.getFragmentMapCard(window.filters.arrFilterAds[mapPinElementId], mapPinElementId), mapElement.querySelector('.map__filters-container'));
+      mapElement.insertBefore(window.card.getFragment(window.filters.ads[mapPinElementId], mapPinElementId), mapElement.querySelector('.map__filters-container'));
 
       document.addEventListener('keydown', pinElementEscPressHandler);
 
@@ -31,7 +31,7 @@
       });
     } else {
       if (mapCardPopupElement[0].dataset.id !== mapPinElementId) {
-        window.card.generationMapCard(mapCardPopupElement[0], window.filters.arrFilterAds[mapPinElementId], mapPinElementId);
+        window.card.generation(mapCardPopupElement[0], window.filters.ads[mapPinElementId], mapPinElementId);
       }
     }
   };

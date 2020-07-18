@@ -30,6 +30,6 @@
   };
 
   window.pins = {
-    getFragmentMapPins: getFragmentMapPins
+    getFragment: getFragmentMapPins
   };
 })();

@@ -79,7 +79,7 @@
   };
 
   window.card = {
-    generationMapCard: generationMapCard,
-    getFragmentMapCard: getFragmentMapCard
+    generation: generationMapCard,
+    getFragment: getFragmentMapCard
   };
 })();

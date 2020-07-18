@@ -18,15 +18,15 @@
   var adFormPhotoElement = document.querySelector('.ad-form__photo');
   var activePage = false;
 
-  window.form.toggleDisabledFormControls(adFormFieldsetElements, true);
-  window.form.toggleDisabledFormControls(mapFiltersFormElement.children, true);
+  window.form.toggleDisabledFields(adFormFieldsetElements, true);
+  window.form.toggleDisabledFields(mapFiltersFormElement.children, true);
   window.form.setAddressField(mapPinMainElement);
 
   var activatePage = function () {
     window.backend.load(window.data.successHandler, window.data.errorHandler);
     mapElement.classList.remove('map--faded');
     adFormElement.classList.remove('ad-form--disabled');
-    window.form.toggleDisabledFormControls(adFormFieldsetElements, false);
+    window.form.toggleDisabledFields(adFormFieldsetElements, false);
     activePage = true;
   };
 
@@ -51,15 +51,15 @@
   var deactivatePage = function () {
     mapElement.classList.add('map--faded');
     adFormElement.classList.add('ad-form--disabled');
-    window.form.toggleDisabledFormControls(adFormFieldsetElements, true);
-    window.form.toggleDisabledFormControls(mapFiltersFormElement.children, true);
+    window.form.toggleDisabledFields(adFormFieldsetElements, true);
+    window.form.toggleDisabledFields(mapFiltersFormElement.children, true);
     closeCardHandler();
     resetPins();
 
     mapPinMainElement.style.left = DEFAULT_POSITION_MAIN_PIN_X + 'px';
     mapPinMainElement.style.top = DEFAULT_POSITION_MAIN_PIN_Y + 'px';
     window.form.setAddressField(mapPinMainElement);
-    window.filters.arrFilterAds = window.data.arrAds;
+    window.filters.ads = window.data.arrAds;
     adFormPreviewElement.src = 'img/muffin-grey.svg';
     adFormPhotoElement.style.backgroundImage = 'none';
     formMapFiltersElement.reset();

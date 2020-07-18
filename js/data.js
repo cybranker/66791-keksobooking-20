@@ -12,10 +12,10 @@
 
   var successHandler = function (ads) {
     window.data.arrAds = ads;
-    window.filters.arrFilterAds = ads;
+    window.filters.ads = ads;
 
-    mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data.arrAds));
-    window.form.toggleDisabledFormControls(mapFiltersFormElement.children, false);
+    mapPinsListElement.appendChild(window.pins.getFragment(window.data.arrAds));
+    window.form.toggleDisabledFields(mapFiltersFormElement.children, false);
   };
 
   var errorHandler = function (errorMessage) {

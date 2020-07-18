@@ -57,13 +57,13 @@
     window.main.resetPins();
     window.main.closeCardHandler();
 
-    window.filters.arrFilterAds = filterData(window.data.arrAds.slice());
-    mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.filters.arrFilterAds));
+    window.filters.ads = filterData(window.data.arrAds.slice());
+    mapPinsListElement.appendChild(window.pins.getFragment(window.filters.ads));
   });
 
   formMapFiltersElement.addEventListener('change', mapFiltersChangeHandler);
 
   window.filters = {
-    arrFilterAds: arrFilterAds
+    ads: arrFilterAds
   };
 })();

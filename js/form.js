@@ -4,7 +4,7 @@
   var MAP_PIN_POINTER_HEIGHT = 15;
   var mapElement = document.querySelector('.map');
 
-  var toggleDisabledFormControls = function (formControls, toggle) {
+  var toggleDisabledFields = function (formControls, toggle) {
     Array.from(formControls).map(function (formControl) {
       formControl.disabled = toggle;
     });
@@ -85,7 +85,7 @@
   });
 
   window.form = {
-    toggleDisabledFormControls: toggleDisabledFormControls,
+    toggleDisabledFields: toggleDisabledFields,
     setAddressField: setAddressField
   };
 })();
