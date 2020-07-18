@@ -122,8 +122,6 @@
       if (evt.button === 0 && !activePage) {
         activatePage();
         window.form.setAddressField(mapPinMainElement);
-
-        // mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data.arrAds));
       }
     };
 
@@ -135,8 +133,6 @@
     if (evt.key === window.map.Key.ENTER && !activePage) {
       activatePage();
       window.form.setAddressField(mapPinMainElement);
-
-      // mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data.arrAds));
     }
   });
 
