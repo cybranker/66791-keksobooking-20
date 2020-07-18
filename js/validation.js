@@ -97,22 +97,26 @@
     }
   };
 
+  var delInvalidBorder = function (element) {
+    element.classList.remove('error-invalid-input');
+  };
+
   adFormElement.addEventListener('change', function (evt) {
     if (evt.target && evt.target.matches('#room_number')) {
-      evt.target.classList.remove('error-invalid-input');
       disabledCapacityInvalidOptions();
+      delInvalidBorder(evt.target);
       setValidityCapacitySelect();
     }
 
     if (evt.target && evt.target.matches('#capacity')) {
-      evt.target.classList.remove('error-invalid-input');
+      delInvalidBorder(evt.target);
       setValidityCapacitySelect();
     }
 
     if (evt.target && evt.target.matches('#type')) {
-      evt.target.classList.remove('error-invalid-input');
       var typeSelectValue = selectTypeElement.value;
 
+      delInvalidBorder(evt.target);
       setValidityPriceInput(typeSelectValue);
     }
 
@@ -130,9 +134,13 @@
   }, true);
 
   adFormElement.addEventListener('input', function (evt) {
-    evt.target.classList.remove('error-invalid-input');
+    delInvalidBorder(evt.target);
   });
 
   disabledCapacityInvalidOptions();
   setValidityCapacitySelect();
+
+  window.validation = {
+    delInvalidBorder: delInvalidBorder
+  };
 })();

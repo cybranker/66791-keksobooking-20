@@ -63,6 +63,11 @@
     adFormPreviewElement.src = 'img/muffin-grey.svg';
     adFormPhotoElement.style.backgroundImage = 'none';
     formMapFiltersElement.reset();
+
+    Array.from(document.querySelectorAll('.error-invalid-input')).forEach(function (it) {
+      window.validation.delInvalidBorder(it);
+    });
+
     activePage = false;
   };
 
