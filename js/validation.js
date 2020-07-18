@@ -99,15 +99,18 @@
 
   adFormElement.addEventListener('change', function (evt) {
     if (evt.target && evt.target.matches('#room_number')) {
+      evt.target.classList.remove('error-invalid-input');
       disabledCapacityInvalidOptions();
       setValidityCapacitySelect();
     }
 
     if (evt.target && evt.target.matches('#capacity')) {
+      evt.target.classList.remove('error-invalid-input');
       setValidityCapacitySelect();
     }
 
     if (evt.target && evt.target.matches('#type')) {
+      evt.target.classList.remove('error-invalid-input');
       var typeSelectValue = selectTypeElement.value;
 
       setValidityPriceInput(typeSelectValue);
@@ -120,6 +123,14 @@
     if (evt.target && evt.target.matches('#timeout')) {
       synchronizationTimeOptions('#timein', selectTimeoutElement.value);
     }
+  });
+
+  adFormElement.addEventListener('invalid', function (evt) {
+    evt.target.classList.add('error-invalid-input');
+  }, true);
+
+  adFormElement.addEventListener('input', function (evt) {
+    evt.target.classList.remove('error-invalid-input');
   });
 
   disabledCapacityInvalidOptions();
