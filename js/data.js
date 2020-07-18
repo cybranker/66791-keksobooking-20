@@ -7,9 +7,15 @@
   var MAP_HEIGHT_MAX = 630;
   var arrAds = [];
 
+  var mapPinsListElement = document.querySelector('.map__pins');
+  var mapFiltersFormElement = document.querySelector('.map__filters');
+
   var successHandler = function (ads) {
     window.data.arrAds = ads;
     window.filters.arrFilterAds = ads;
+
+    mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data.arrAds));
+    window.form.toggleDisabledFormControls(mapFiltersFormElement.children, false);
   };
 
   var errorHandler = function (errorMessage) {
@@ -20,13 +26,13 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  window.backend.load(successHandler, errorHandler);
-
   window.data = {
     MAP_WIDTH_MIN: MAP_WIDTH_MIN,
     MAP_WIDTH_MAX: MAP_WIDTH_MAX,
     MAP_HEIGHT_MIN: MAP_HEIGHT_MIN,
     MAP_HEIGHT_MAX: MAP_HEIGHT_MAX,
+    successHandler: successHandler,
+    errorHandler: errorHandler,
     arrAds: arrAds
   };
 })();

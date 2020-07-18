@@ -23,10 +23,10 @@
   window.form.setAddressField(mapPinMainElement);
 
   var activatePage = function () {
+    window.backend.load(window.data.successHandler, window.data.errorHandler);
     mapElement.classList.remove('map--faded');
     adFormElement.classList.remove('ad-form--disabled');
     window.form.toggleDisabledFormControls(adFormFieldsetElements, false);
-    window.form.toggleDisabledFormControls(mapFiltersFormElement.children, false);
     activePage = true;
   };
 
@@ -123,7 +123,7 @@
         activatePage();
         window.form.setAddressField(mapPinMainElement);
 
-        mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data.arrAds));
+        // mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data.arrAds));
       }
     };
 
@@ -136,7 +136,7 @@
       activatePage();
       window.form.setAddressField(mapPinMainElement);
 
-      mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data.arrAds));
+      // mapPinsListElement.appendChild(window.pins.getFragmentMapPins(window.data.arrAds));
     }
   });
 
