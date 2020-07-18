@@ -68,6 +68,7 @@
       window.validation.delBorderInvalidField(it);
     });
 
+    document.querySelector('.error-xhr-message').remove();
     activePage = false;
   };
 

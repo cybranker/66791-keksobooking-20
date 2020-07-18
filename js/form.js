@@ -56,12 +56,7 @@
   var adFormElement = document.querySelector('.ad-form');
 
   var errorHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.classList.add('error-xhr-message');
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
-
+    window.data.setXhrErrorMessage(errorMessage);
     window.message.openError();
   };
 

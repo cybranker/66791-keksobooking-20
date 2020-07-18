@@ -57,15 +57,16 @@
     var errorTemplate = document.querySelector('#error')
       .content
       .querySelector('.error');
+    var errorCloneTemplate = errorTemplate.cloneNode(true);
 
-    openMessage(errorTemplate);
+    openMessage(errorCloneTemplate);
 
-    var errorButtonElement = errorTemplate.querySelector('.error__button');
+    var errorButtonElement = errorCloneTemplate.querySelector('.error__button');
 
     errorButtonElement.addEventListener('click', function (evt) {
       evt.preventDefault();
 
-      closeMessage(errorTemplate);
+      closeMessage(errorCloneTemplate);
     });
   };
 

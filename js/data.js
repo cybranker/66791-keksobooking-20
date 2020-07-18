@@ -18,12 +18,22 @@
     window.form.toggleDisabledFields(mapFiltersFormElement.children, false);
   };
 
-  var errorHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.classList.add('error-xhr-message');
+  var setXhrErrorMessage = function (message) {
+    var errorXhrMessageElement = document.querySelector('.error-xhr-message');
 
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+    if (!errorXhrMessageElement) {
+      var node = document.createElement('div');
+      node.classList.add('error-xhr-message');
+
+      node.textContent = message;
+      document.body.insertAdjacentElement('afterbegin', node);
+    } else {
+      errorXhrMessageElement.textContent = message;
+    }
+  };
+
+  var errorHandler = function (errorMessage) {
+    setXhrErrorMessage(errorMessage);
   };
 
   window.data = {
@@ -33,6 +43,7 @@
     MAP_HEIGHT_MAX: MAP_HEIGHT_MAX,
     successHandler: successHandler,
     errorHandler: errorHandler,
+    setXhrErrorMessage: setXhrErrorMessage,
     arrAds: arrAds
   };
 })();
