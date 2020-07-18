@@ -33,9 +33,9 @@
   var resetPins = function () {
     var mapPinElements = mapPinsListElement.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-    for (var i = 0; i < mapPinElements.length; i++) {
-      mapPinsListElement.removeChild(mapPinElements[i]);
-    }
+    Array.from(mapPinElements).forEach(function (it) {
+      mapPinsListElement.removeChild(it);
+    });
   };
 
   var closeCardHandler = function () {
@@ -65,7 +65,7 @@
     formMapFiltersElement.reset();
 
     Array.from(document.querySelectorAll('.error-invalid-input')).forEach(function (it) {
-      window.validation.delInvalidBorder(it);
+      window.validation.delBorderInvalidField(it);
     });
 
     activePage = false;

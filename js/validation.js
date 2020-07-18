@@ -17,19 +17,19 @@
     var selectCapacityOptionElements = selectCapacityElement.querySelectorAll('option');
     var selectCapacityOptionValue;
 
-    for (var i = 0; i < selectCapacityOptionElements.length; i++) {
-      selectCapacityOptionValue = parseInt(selectCapacityOptionElements[i].value, 10);
+    Array.from(selectCapacityOptionElements).forEach(function (it) {
+      selectCapacityOptionValue = parseInt(it.value, 10);
 
       if (selectCapacityOptionValue > roomNumberSelectValue ||
         (selectCapacityOptionValue === MIN_CAPACITY_SELECT_VALUE &&
           roomNumberSelectValue !== MAX_ROOM_NUMBER_SELECT_VALUE) ||
         (selectCapacityOptionValue > MIN_CAPACITY_SELECT_VALUE &&
           roomNumberSelectValue === MAX_ROOM_NUMBER_SELECT_VALUE)) {
-        selectCapacityOptionElements[i].disabled = true;
+        it.disabled = true;
       } else {
-        selectCapacityOptionElements[i].disabled = false;
+        it.disabled = false;
       }
-    }
+    });
   };
 
   var setValidityCapacitySelect = function () {
@@ -88,35 +88,35 @@
     var selectTimeElement = document.querySelector(selector);
     var selectTimeOptionElements = selectTimeElement.querySelectorAll('option');
 
-    for (var i = 0; i < selectTimeOptionElements.length; i++) {
-      if (selectTimeOptionElements[i].value === timeValue) {
-        selectTimeOptionElements[i].selected = true;
+    Array.from(selectTimeOptionElements).forEach(function (it) {
+      if (it.value === timeValue) {
+        it.selected = true;
       } else {
-        selectTimeOptionElements[i].selected = false;
+        it.selected = false;
       }
-    }
+    });
   };
 
-  var delInvalidBorder = function (element) {
+  var delBorderInvalidField = function (element) {
     element.classList.remove('error-invalid-input');
   };
 
   adFormElement.addEventListener('change', function (evt) {
     if (evt.target && evt.target.matches('#room_number')) {
       disabledCapacityInvalidOptions();
-      delInvalidBorder(evt.target);
+      delBorderInvalidField(evt.target);
       setValidityCapacitySelect();
     }
 
     if (evt.target && evt.target.matches('#capacity')) {
-      delInvalidBorder(evt.target);
+      delBorderInvalidField(evt.target);
       setValidityCapacitySelect();
     }
 
     if (evt.target && evt.target.matches('#type')) {
       var typeSelectValue = selectTypeElement.value;
 
-      delInvalidBorder(evt.target);
+      delBorderInvalidField(evt.target);
       setValidityPriceInput(typeSelectValue);
     }
 
@@ -134,13 +134,13 @@
   }, true);
 
   adFormElement.addEventListener('input', function (evt) {
-    delInvalidBorder(evt.target);
+    delBorderInvalidField(evt.target);
   });
 
   disabledCapacityInvalidOptions();
   setValidityCapacitySelect();
 
   window.validation = {
-    delInvalidBorder: delInvalidBorder
+    delBorderInvalidField: delBorderInvalidField
   };
 })();
